@@ -6,89 +6,42 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import asyncio
 from traveltimepy import TravelTimeSdk
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+sdk = TravelTimeSdk("8097a90e", "90bf31f1a51cfd508e0d50b0f6ef69a7")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 onibus_data = []
 ponto_data = []
 horario_data = []
 
 
-class LocationSearchQuery(BaseModel):
-    query: str
+@app.get("/geocoding")
+async def geocoding_search(query: str, limit: int = 30):
+    try:
+        results = await sdk.geocoding_async(query=query, limit=limit)
+        return results.features
+    except Exception as e:
+        return {"error": f"Erro na pesquisa de geocodificação: {str(e)}"}
 
 
-class OnibusSelecionado(BaseModel):
-    linha: str
-
-
-class PontoSelecionado(BaseModel):
-    latitude: float
-    longitude: float
-
-
-class HorarioPartidaSelecionado(BaseModel):
-    hora_partida: str
-
-
-def send_notification_email(user_email, bus_line, arrival_time):
-    sender_email = "seu_email@gmail.com"
-    receiver_email = user_email
-    password = "sua_senha"
-
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = f"Notificação de Chegada do Ônibus da Linha {
-        bus_line}"
-
-    body = f"O ônibus da linha {
-        bus_line} está a caminho! Chegará em aproximadamente {arrival_time} minutos."
-    message.attach(MIMEText(body, "plain"))
-
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(sender_email, password)
-    text = message.as_string()
-    server.sendmail(sender_email, receiver_email, text)
-    server.quit()
-
-# Endpoints existentes para cadastrar ônibus, ponto e horário de partida
-
-
-@app.post("/selecionar-onibus")
-def selecionar_onibus(onibus: OnibusSelecionado):
-    # Lógica para selecionar o ônibus
-    return {"message": f"Ônibus {onibus.linha} selecionado com sucesso"}
-
-
-@app.post("/selecionar-ponto")
-def selecionar_ponto(ponto: PontoSelecionado):
-    # Lógica para selecionar o ponto
-    return {"message": "Ponto selecionado com sucesso"}
-
-
-@app.post("/selecionar-horario-partida")
-def selecionar_horario_partida(horario: HorarioPartidaSelecionado):
-    # Lógica para selecionar o horário de partida
-    return {"message": "Horário de partida selecionado com sucesso"}
-
-# Endpoint raiz
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Bem-vindo à API de ônibus do Rio de Janeiro"}
-
-
-@app.post("/verificar-notificacao")
-def verificar_notificacao(dados: dict):
-    # Lógica para verificar a posição dos ônibus e determinar se enviar notificação
-    # Substitua esta lógica com a verificação real baseada nos dados recebidos
-
-    # Exemplo de chamada da função de envio de e-mail
-    send_notification_email(
-        dados["email"], dados["linha"], dados["tempo_chegada"])
-
-    return {"message": "Verificação de notificação realizada com sucesso"}
+@app.get("/linhas-onibus")
+def listar_linhas_onibus():
+    response = requests.get(
+        "https://dados.mobilidade.rio/gps/sppo?dataInicial=2024-01-29+15:40:00&dataFinal=2024-01-29+15:43:00")
+    if response.status_code == 200:
+        linhas = set()
+        data = response.json()
+        for item in data:
+            linhas.add(item["linha"])
+        return {"linhas": list(linhas)}
+    else:
+        return {"error": "Erro ao obter as linhas de ônibus"}
