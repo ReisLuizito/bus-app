@@ -26,7 +26,7 @@ const GeocodingSearch = ({ onPointSelect }) => {
 
   return (
     <div>
-      <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Insira uma localidade ou ponto" />
+      <input id='location_input' type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Insira uma localidade ou ponto de ônibus" />
       <button onClick={handleGeocodingSearch}>Pesquisar</button>
       <ul>
         {Array.isArray(results) &&

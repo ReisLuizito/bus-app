@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Localização fixa que servirá como referência (Cristo Redentor)
 reference_location = Location(
     id="reference_point", coords=Coordinates(lat=-22.9519, lng=-43.2106))
 
@@ -53,7 +51,7 @@ def listar_linhas_onibus():
         data = response.json()
         for item in data:
             linhas.add(item["linha"])
-        return {"linhas": list(linhas)}  # Alterado para retornar um dicionário
+        return {"linhas": list(linhas)}
     else:
         return {"error": "Erro ao obter as linhas de ônibus"}
 

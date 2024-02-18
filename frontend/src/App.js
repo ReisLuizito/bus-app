@@ -104,10 +104,12 @@ function App() {
     setSelectedPoint(null);
     setReferenceTravelTime(null);
     setPointSelected(false);
+    
   };
 
   return (
-    <div>
+    <div class='container'>
+        <h1>Bem vindo ao Bus App</h1>
       <GeocodingSearch onPointSelect={(result) => handlePointSelection(result)} />
       <select id="linhas-onibus" onChange={(e) => handleBusLineSelection(e.target.value)} disabled={!pointSelected}>
         {}
