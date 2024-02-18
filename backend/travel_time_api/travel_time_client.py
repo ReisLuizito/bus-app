@@ -17,8 +17,7 @@ async def main():
     results = await sdk.time_filter_fast_async(
         locations=locations,
         search_ids={
-            "London center": ["Hyde Park", "ZSL London Zoo"],
-            "ZSL London Zoo": ["Hyde Park", "London center"],
+
         },
         transportation=Transportation(type="public_transport"),
         one_to_many=False
