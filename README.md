@@ -22,7 +22,7 @@ Certifique-se de ter o seguinte instalado em sua máquina antes de começar:
 
 * python -m venv venv
 * source venv/bin/activate
-* # No Windows: venv\Scripts\activate  
+* No Windows: venv\Scripts\activate  
 
 ### Instale as dependências:
 
