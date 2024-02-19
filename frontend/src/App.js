@@ -1,6 +1,9 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GeocodingSearch from './components/GeocodingSearch';
+import BusLineInfo from './components/BusLineInfo';
 
 function App() {
   const [selectedBusLine, setSelectedBusLine] = useState('');
@@ -119,38 +122,16 @@ function App() {
 };
 
   return (
-    <div class='container'>
-        <div className='content_container'>
+    <div className='container'>
+      <div className='content_container'>
         <h1>Bem vindo ao Bus App</h1>
-      <GeocodingSearch onPointSelect={(result) => handlePointSelection(result)} />
-      <select id="linhas-onibus" onChange={(e) => handleBusLineSelection(e.target.value)} disabled={!pointSelected}>
-        {}
-      </select>
-      <input type="time" value={departureTime} onChange={(e) => handleDepartureTimeSelection(e.target.value)} />
-      <button onClick={handleGeocodingSearch}>Limpar Pesquisa</button>
-      {selectedBusLine && (
-        <div>
-          <h2>Ônibus da linha {selectedBusLine}</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Linha</th>
-                <th>Velocidade</th>
-                <th>Tempo até o local de partida</th>
-              </tr>
-            </thead>
-            <tbody>
-              {busData.map((bus, index) => (
-                <tr key={index}>
-                  <td>{bus.linha}</td>
-                  <td>{bus.velocidade} km/h</td>
-                  <td>{bus.tempoPartida !== null ? `${bus.tempoPartida} seg` : '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+        <GeocodingSearch onPointSelect={(result) => handlePointSelection(result)} />
+        <select id="linhas-onibus" onChange={(e) => handleBusLineSelection(e.target.value)} disabled={!pointSelected}>
+          {}
+        </select>
+        <input type="time" value={departureTime} onChange={(e) => handleDepartureTimeSelection(e.target.value)} />
+        <button onClick={handleGeocodingSearch}>Limpar Pesquisa</button>
+        {selectedBusLine && <BusLineInfo selectedBusLine={selectedBusLine} busData={busData} />}
       </div>
     </div>
   );
