@@ -125,6 +125,12 @@ function App() {
     <div className='container'>
       <div className='content_container'>
         <h1>Bem vindo ao Bus App</h1>
+        <input id='email_input'
+                type="email"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
+                placeholder="Insira seu e-mail para notificações"
+            />
         <GeocodingSearch onPointSelect={(result) => handlePointSelection(result)} />
         <select id="linhas-onibus" onChange={(e) => handleBusLineSelection(e.target.value)} disabled={!pointSelected}>
           {}
