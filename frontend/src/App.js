@@ -124,7 +124,8 @@ function App() {
   return (
     <div className='container'>
       <div className='content_container'>
-        <h1>Bem vindo ao Bus App</h1>
+        <h1>Bem-vindo ao Bus App</h1>
+        <h3>Este é um aplicativo que permite visualizar informações de ônibus, calcular tempos de viagem e receber notificações por e-mail quando um ônibus está a 10 minutos de distância.</h3>
         <input id='email_input'
                 type="email"
                 value={userEmail}
