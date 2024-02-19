@@ -1,10 +1,12 @@
 from celery import Celery
-from bus_data import obter_dados_onibus
 
-app = Celery('tasks', broker='redis://localhost:6379/0')
+celery = Celery('tasks', broker='pyamqp://guest@localhost//')
 
-
-@app.task
-def obter_dados_periodicamente():
-    data = obter_dados_onibus()
-    # Processar os dados ou armazenar no Redis, conforme necessário
+@celery.task
+def send_notification(bus_line, email):
+    
+    subject = f"Notificação: Ônibus da Linha {bus_line} está chegando!"
+    message = f"O ônibus da Linha {
+        bus_line} está a 10 minutos ou menos de distância."
+    from_email = 'seu_email@gmail.com'  
+    recipient_list = [email]

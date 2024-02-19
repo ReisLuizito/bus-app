@@ -1,4 +1,7 @@
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-family: "Roboto", sans-serif;
   background-color: #fff;
   margin: 0;
@@ -9,14 +12,18 @@ body {
 
 .container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   max-width: 100%;
-  min-height: 100dvh;
-  padding: 35px;
+  min-height: 100vh;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+}
+.content_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -24,6 +31,17 @@ h1 {
   color: #333;
   margin-bottom: 20px;
 }
+
+#email_input {
+  min-width: 250px;
+}
+
+#location_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #location_input {
   min-width: 250px;
 }

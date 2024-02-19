@@ -9,6 +9,7 @@ function App() {
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [referenceTravelTime, setReferenceTravelTime] = useState(null);
   const [pointSelected, setPointSelected] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     const referencePoint = { lat: -22.9519, lng: -43.2106 };
@@ -23,6 +24,7 @@ function App() {
             arrival_location_ids: busData.map(bus => bus.ordem),
             departure_time: departureTime,
             travel_time: 1800,
+            user_email: userEmail,
           }];
 
           const response = await axios.post('http://127.0.0.1:8000/calculate-travel-time', { locations, departure_searches });
@@ -107,8 +109,18 @@ function App() {
     
   };
 
+  const handleEmailSubscription = async () => {
+    try {
+        const response = await axios.post('http://localhost:8000/subscribe', { email: userEmail });
+        console.log(response.data.message);
+    } catch (error) {
+        console.error('Erro ao cadastrar o e-mail:', error);
+    }
+};
+
   return (
     <div class='container'>
+        <div className='content_container'>
         <h1>Bem vindo ao Bus App</h1>
       <GeocodingSearch onPointSelect={(result) => handlePointSelection(result)} />
       <select id="linhas-onibus" onChange={(e) => handleBusLineSelection(e.target.value)} disabled={!pointSelected}>
@@ -139,6 +151,7 @@ function App() {
           </table>
         </div>
       )}
+      </div>
     </div>
   );
 }

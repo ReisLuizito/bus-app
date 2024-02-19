@@ -17,3 +17,7 @@ class Ponto(BaseModel):
 
 class HorarioPartida(BaseModel):
     hora_partida: str
+
+
+class Subscriber(BaseModel):
+    email: str
