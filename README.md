@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Bus App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um aplicativo que permite visualizar informações de ônibus, calcular tempos de viagem e receber notificações por e-mail quando um ônibus está a 10 minutos de distância.
 
-## Available Scripts
+## Pré-requisitos
 
-In the project directory, you can run:
+Certifique-se de ter o seguinte instalado em sua máquina antes de começar:
 
-### `npm start`
+* Python (versão 3.6 ou superior)
+* Node.js e npm (para a parte frontend em React)
+* Redis (necessário para Celery)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Clone o repositório:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* https://github.com/ReisLuizito/bus-app.git
 
-### `npm test`
+### Navegue até o diretório backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* cd bus-app/backend
 
-### `npm run build`
+### Crie um ambiente virtual e ative-o:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* python -m venv venv
+* source venv/bin/activate  # No Windows: venv\Scripts\activate
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Instale as dependências:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* pip install -r requirements.txt
 
-### `npm run eject`
+### Inicie o servidor:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* uvicorn main:app --reload
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Em um terminal separado, inicie o Celery para processar tarefas em segundo plano:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* redis-cli
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Configuração do Frontend (React)
 
-## Learn More
+### Navegue até o diretório do frontend:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* cd bus-app/frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Instale as dependências do Node.js:
 
-### Code Splitting
+* npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Inicie o servidor de desenvolvimento:
 
-### Analyzing the Bundle Size
+* npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Uso 
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Abra o aplicativo no navegador: http://localhost:3000.
+* Preencha a localidade ou ponto desejado na barra de pesquisa.
+* Selecione uma linha de ônibus após a pesquisa.
+* Visualize as informações sobre ônibus da linha selecionada.
+* Para limpar a pesquisa, clique no botão "Limpar Pesquisa".
+* Escolha o horário de partida para receber uma notificação por e-mail 10 minutos antes do  ônibus chegar ao ponto cadastrado.
+ 
